@@ -22,4 +22,4 @@ const getLocationDataFromIp = async (ipAddress) => {
   }
 };
 
-export { getWeatherData, getLocationData };
+export { getWeatherData, getLocationDataFromIp };
