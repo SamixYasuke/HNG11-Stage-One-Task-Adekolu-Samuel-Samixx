@@ -11,7 +11,7 @@ const getWeatherData = async (city) => {
   }
 };
 
-const getLocationData = async (ipAddress) => {
+const getLocationDataFromIp = async (ipAddress) => {
   try {
     const locationUrl = `https://ipapi.co/${ipAddress}/json/`;
     const locationResponse = await axios.get(locationUrl);
