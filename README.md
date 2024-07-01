@@ -5,4 +5,4 @@ This project is an Express.js server that provides weather information and a per
 # Testing The API
 To test the API endpoint use the url below, you can test it in your browser since it's a GET request
 
-https://hng-11-stage-one-task-adekolu-samuel-samixx.vercel.app/api/hello?visitor_name=[Enter Your Name]
+https://hng-11-stage-one-task-adekolu-samuel-samixx.vercel.app/api/hello?visitor_name=[your_name]
