@@ -1,4 +1,3 @@
-import { publicIpv4 } from "public-ip";
 import axios from "axios";
 import express from "express";
 import dotenv from "dotenv";
@@ -10,19 +9,19 @@ const PORT = process.env.PORT || 3000;
 
 app.get("/api/hello/", async (req, res) => {
   const { visitor_name } = req.query;
+
+  if (!visitor_name) {
+    return res.status(400).json({ error: "Visitor name is required" });
+  }
+
   try {
     // This is the i got the user's public IP address
-    const ip = await publicIpv4();
-    console.log("Public IP Address:", ip);
-
-    //
     const ipAddress =
       req.headers["x-real-ip"] ||
       req.headers["x-forwarded-for"] ||
       req.socket.remoteAddress ||
       "";
     console.log(ipAddress);
-    //
 
     // This is where i fetched the location data and city name based on IP address
     const locationUrl = `https://ipapi.co/${ipAddress}/json/`;
@@ -38,7 +37,7 @@ app.get("/api/hello/", async (req, res) => {
       res.json({
         client_ip: ipAddress,
         location: city,
-        greeting: `Hello, ${visitor_name}!, the temperature is ${weatherInfo} degrees Celcius in ${city}`,
+        greeting: `Hello, ${visitor_name}!, the temperature is ${weatherInfo} degrees Celsius in ${city}`,
       });
     } else {
       throw new Error("City name not found in location data");
