@@ -22,19 +22,23 @@ app.get("/api/hello", async (req, res) => {
       req.headers["x-forwarded-for"] ||
       req.socket.remoteAddress ||
       "";
-    console.log(ipAddress);
 
+    if (ipAddress === undefined || ipAddress === null || ipAddress === "") {
+      return res.status(400).json({
+        error: "Ip Address Not Found",
+      });
+    }
     const city = await getLocationDataFromIp(ipAddress);
-    const weatherInfo = await getWeatherData(city);
 
     if (city) {
+      const weatherInfo = await getWeatherData(city);
       res.status(200).json({
         client_ip: ipAddress,
         location: city,
         greeting: `Hello, ${visitor_name}!, the temperature is ${weatherInfo} degrees Celcius in ${city}`,
       });
     } else {
-      throw new Error("City name not found in location data");
+      throw new Error("City name not found, check ip address!!");
     }
   } catch (error) {
     console.error("Error:", error?.message);
