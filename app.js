@@ -7,22 +7,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-  if (!process.env.OPENWEATHER_API_KEY) {
-    return res.status(500).json({ error: "Missing API key for OpenWeather" });
-  }
-  next();
-});
-
 app.get("/api/hello/", async (req, res) => {
   const { visitor_name } = req.query;
   try {
-    const ipAddress =
-      req.headers["x-real-ip"] ||
-      req.headers["x-forwarded-for"] ||
-      req.socket.remoteAddress ||
-      "";
-    console.log("Client IP Address:", ipAddress);
+    // Get the user's public IP address
+    const ipResponse = await axios.get(`https://get.geojs.io/v1/ip.json`);
+    const ipAddress = ipResponse.data.ip;
+    console.log("Public IP Address:", ipAddress);
 
     // Fetch location data and city name based on IP address
     const locationUrl = `https://ipapi.co/${ipAddress}/json/`;
